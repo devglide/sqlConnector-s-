@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Displaying a SQL Server Table on the Web</title>
+</head>
+
+<body>
+<table border="1">
+<caption>Chinese Characters</caption>
+<tr>
+  <th>prime_key
+  <th>hanzi
+   <th>pinyin
+   <th>english
+</tr>
+
+<?php
+  $db = odbc_connect("103.231.30.155", "devongl_Devon", "(yc{z[~Ps~]Y") or die ("could not connect<br />");
+
+  $stmt = "Select * from numbers ORDER BY prime_key, hanzi";
+
+  $result = odbc_exec($db, $stmt);
+
+  if ($result == FALSE) die ("could not execute statement $stmt<br />");
+
+  while (odbc_fetch_row($result)) // while there are rows
+  {
+     print "<tr>\n";
+     print "  <td>" . odbc_result($result, "prime_key") . "\n";
+     print "  <td>" . odbc_result($result, "hanzi") . "\n";
+     print "  <td>" . odbc_result($result, "pinyin") . "\n";
+     print "  <td>" . odbc_result($result, "english") . "\n";
+     print "</tr>\n";
+  }
+
+  odbc_free_result($result);
+
+  odbc_close($db);
+?>
+</table>
+</body>
+</html>
